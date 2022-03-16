@@ -3,6 +3,10 @@
 * All columns/fields names MUST follow [general naming convention](./general.md)
 * Collections/tables names MUST be in plural form
 
+## RDBMS
+
+* ID columns that uses `@pallad/id` MUST BE of type `CHAR(24)`
+
 ## Postgres
 
 * All column names MUST be in `snake_case` format
