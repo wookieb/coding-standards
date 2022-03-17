@@ -1,6 +1,7 @@
 # General
 
-Make sure you got familiar with [naming cheatsheet](https://github.com/kettanaito/naming-cheatsheet) first. If something in that documentatin isn't clear you should refer to naming conventions first.
+Make sure you got familiar with [naming cheatsheet](https://github.com/kettanaito/naming-cheatsheet) first. If something
+in that documentatin isn't clear you should refer to naming conventions first.
 
 ## Naming conventions
 
@@ -22,11 +23,11 @@ const article = {
 
 * Booleans/Flags
     * MUST use one of following prefixes
-      * `is`
-      * `has`
-      * `was`
-      * `to`
-      * `should`
+        * `is`
+        * `has`
+        * `was`
+        * `to`
+        * `should`
     * If an entity contains a lot of boolean flags, consider using other data types (lists, sets, strings, enums) to
       reflect entity data
 
@@ -42,8 +43,8 @@ const shouldBeRemoved = false;
 
 ## Actions
 
-Action is an operation to perform on anything (entity, database, table, collection, list etc).
-To standarize them, the following action names MUST be used
+Action is an operation to perform on anything (entity, database, table, collection, list etc). To standarize them, the
+following action names MUST be used
 
 * `create`
     * to create an entity
@@ -63,9 +64,75 @@ To standarize them, the following action names MUST be used
     * to perform queries on database
     * to perform any search on lists/sets
 * `compose`
-  * to create something from other things
+    * to create something from other things
 
-Every action that is not covered, and is not in conflict with this section, MAY be used but MUST be in `camelCase` format.
+Every action that is not covered, and is not in conflict with this section, MAY be used but MUST be in `camelCase`
+format.
+
+## Avoiding semantic double negations
+
+You SHOULD avoid using flags named "disable", "hide" or similar that "turns off" certain behavior. This is because you
+can easily end up in situation of double negation.
+
+```typescript
+class ArticleService {
+    update(id: string, data: ArticleData) {
+        this.performUpdate(data);
+        this.updatePublishDate(id);
+    }
+}
+```
+
+Now you might need to disable updating publish date. You might be tempted to add options property
+named `disableUpdatingPublishDate`.
+
+```typescript
+class ArticleService {
+    update(id: string, data: ArticleData, options?: { disableUpdatingPublishDate?: boolean }) {
+        this.performUpdate(data);
+        // now you need to spend more time to logically analyze if operation is enabled
+        const shouldUpdatePublishDate = 'disableUpdatingPublishDate' in options ? !options.disableUpdatingPublishDate : false;
+        if (shouldUpdatePublishDate) {
+            this.updatePublishDate(id);
+        }
+    }
+}
+```
+
+Not only you need to think a little bit more to make sure how to handle "disabling" flag but also you might end up
+calling service that sets this flag to false which is a double negation logic harder to understand.
+
+```typescript
+// enable updating publish date but in order to understand that you need to think a little bit more
+service.update(id, data, {disableUpdatingPublishDate: false})
+
+// disable updating publish date
+service.update(id, data, {disableUpdatingPublishDate: true})
+```
+
+It is far better to take opposite approach and name fields like "enable", "show" etc and give them correct defaults
+
+```typescript
+class ArticleService {
+    update(id: string, data: ArticleData, options?: { updatePublishDate?: boolean }) {
+        this.performUpdate(data);
+        // easy right?
+        if (options?.updatePublishDate ?? true) {
+            this.updatePublishDate(id);
+        }
+    }
+}
+```
+
+```typescript
+// enable updating publish date
+service.update(id, data, {updatePublishDate: true})
+
+// disable updating publish date
+service.update(id, data, {updatePublishDate: false})
+```
+
+Same rule applies to frontend world.
 
 ## FAQ
 
