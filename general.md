@@ -91,8 +91,7 @@ class ArticleService {
     update(id: string, data: ArticleData, options?: { disableUpdatingPublishDate?: boolean }) {
         this.performUpdate(data);
         // now you need to spend more time to logically analyze if operation is enabled
-        const shouldUpdatePublishDate = 'disableUpdatingPublishDate' in options ? !options.disableUpdatingPublishDate : false;
-        if (shouldUpdatePublishDate) {
+        if (!(options?.disableUpdatingPublishDate ?? false)) {
             this.updatePublishDate(id);
         }
     }
