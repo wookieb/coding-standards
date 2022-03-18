@@ -113,10 +113,10 @@ It is far better to take opposite approach and name fields like "enable", "show"
 
 ```typescript
 class ArticleService {
-    update(id: string, data: ArticleData, options?: { updatePublishDate?: boolean }) {
+    update(id: string, data: ArticleData, options?: { shouldUpdatePublishDate?: boolean }) {
         this.performUpdate(data);
         // easy right?
-        if (options?.updatePublishDate ?? true) {
+        if (options?.shouldUpdatePublishDate ?? true) {
             this.updatePublishDate(id);
         }
     }
@@ -125,10 +125,10 @@ class ArticleService {
 
 ```typescript
 // enable updating publish date
-service.update(id, data, {updatePublishDate: true})
+service.update(id, data, {shouldUpdatePublishDate: true})
 
 // disable updating publish date
-service.update(id, data, {updatePublishDate: false})
+service.update(id, data, {shouldUpdatePublishDate: false})
 ```
 
 Same rule applies to frontend world.
