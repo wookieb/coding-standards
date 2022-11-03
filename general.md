@@ -28,6 +28,7 @@ const article = {
         * `was`
         * `to`
         * `should`
+        * `with`
     * If an entity contains a lot of boolean flags, consider using other data types (lists, sets, strings, enums) to
       reflect entity data
 
