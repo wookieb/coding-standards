@@ -7,6 +7,6 @@
 * Configuration for other environments files like `production` or `test` are allowed to exist in `config` directory but
   only non-secrets data could be stored.
     * That means no secrets are allowed to be stored in non-development configuration files
-* Secrets for non-development environments MUST be stored in storages designed for storing secres like AWS SSM or some
+* Secrets for non-development environments MUST be stored in storages designed for storing secrets like AWS SSM, AWS Config or some
   kind of encrypted storages
 * Secrets for development MAY be stored outside configuration files

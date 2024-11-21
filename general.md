@@ -42,6 +42,25 @@ const shouldBeRemoved = false;
 
 * Usage of `null` MUST be avoided
 
+### Enumerable names
+
+By _wnumerable names_ we mean strings that represent kind, type of something.
+
+Examples of enumerable names:
+* Name of event
+* Type of entity
+* Name of ection
+
+* Enumerable names MUST use `UPPER_CASE` format.
+* Allowed characters are `A-Z`, `0-9`, `_`
+* If enumerable has to be unique in wider scope then it MUST use namespacing separated with `.`
+```
+PRODUCT.CREATED
+DOCUMENT.DELETED
+```
+  * Namespaced enumerable names cannot be used in GraphQL
+
+ 
 ## Actions
 
 Action is an operation to perform on anything (entity, database, table, collection, list etc). To standarize them, the
